@@ -32,8 +32,42 @@ function multiply(carPlate) {
     });
 }
 
-function remainder(numbers) {
+function calculateRemainder(numbers) {
     return numbers.reduce((x, y) => x + y, 0) % 19;
+}
+
+function getChecksum(remainder) {
+    //A, Z, Y, X, U, T, S, R, P, M, L, K, J, H, G, E, D, C, B
+    const numberPlateChars = {
+        0: "A",
+        1: "Z",
+        2: "Y",
+        3: "X",
+        4: "U",
+        5: "T",
+        6: "S",
+        7: "R",
+        8: "P",
+        9: "M",
+        10: "L",
+        11: "K",
+        12: "J",
+        13: "H",
+        14: "G",
+        15: "E",
+        16: "D",
+        17: "C",
+        18: "B"
+    };
+    return numberPlateChars[remainder];
+}
+
+function calculateChecksum(numberPlate) {
+    var carPlateNumbers = toNumber(numberPlate);
+    var multiplied = multiply(carPlateNumbers);
+    var remainder = calculateRemainder(multiplied);
+    var checksum = getChecksum(remainder);
+    return checksum;
 }
 
 describe("Singapore Car Plate Checksum", () => {
@@ -82,16 +116,33 @@ describe("Singapore Car Plate Checksum", () => {
     });
 
     describe("Multiply", () => {
-        it("should convert the car plate numbers into the multiplied numbers", () => {
+        it("converts the car plate numbers into the multiplied numbers", () => {
             var carPlate = [7, 1, 0, 6, 6, 6];
             expect(multiply(carPlate)).toEqual([63, 4, 0, 24, 18, 12]);
         });
     });
 
-    describe("Convert numbers to letter", () => {
-        it("returns mod19-remainder of sum of numbers", () => {
-            var numbers = [63, 4, 0, 24, 18, 12];
-            expect(remainder(numbers)).toEqual(7);
+    describe("Get the remainder", () => {
+        it("calculates the remainder from the numbers", () => {
+            var carPlate = [63, 4, 0, 24, 18, 12];
+            expect(calculateRemainder(carPlate)).toEqual(7);
         });
     });
+
+    describe("Convert number to the checksum", () => {
+        it("converts remainder to checksum letter", () => {
+            expect(getChecksum(7)).toEqual('R');
+        });
+    });
+
+    describe("Checking some buses", () => {
+        it("gets the checksum digit from a numberplate", () => {
+            expect(calculateChecksum("SG1000")).toEqual("G");
+            expect(calculateChecksum("TIB832")).toEqual("Z");
+            expect(calculateChecksum("SBS1")).toEqual("Z");
+            expect(calculateChecksum("TIB1")).toEqual("E");
+            expect(calculateChecksum("SMB1")).toEqual("H");
+        });
+    });
+
 });
