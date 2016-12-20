@@ -1,9 +1,13 @@
-function padZeros(array) {
-    return [0].concat(array).slice(-2);
+function padZeros(array, size) {
+    return Array(size - 1).fill(0).concat(array).slice(-size);
+}
+
+function number(numbers) {
+    return padZeros([...numbers].map(e => parseInt(e)), 4);
 }
 
 function prefix(prefix) {
-    return padZeros([...prefix]).join("");
+    return padZeros([...prefix], 2).join("");
 }
 
 function numPrefix(prefix) {
@@ -13,7 +17,7 @@ function numPrefix(prefix) {
     } else {
         p = prefix;
     }
-    return padZeros([...p].map(c => c.codePointAt(0) - 64));
+    return padZeros([...p].map(c => c.codePointAt(0) - 64), 2);
 }
 
 describe("Singapore Car Plate Checksum", function() {
@@ -44,6 +48,13 @@ describe("Singapore Car Plate Checksum", function() {
                 var myPrefix = "0E";
                 expect(numPrefix(myPrefix)).toEqual([0, 5]);
             });
+        });
+    });
+
+    describe("Number", function() {
+        it("zero-pads numbers to 4-digit array", function() {
+            var n = "1";
+            expect(number(n)).toEqual([0, 0, 0, 1]);
         });
     });
 });
