@@ -25,6 +25,12 @@ function toNumber(carPlate) {
     return numPrefix(p).concat(number(n));
 }
 
+function multiply(carPlate) {
+    const factors = [9, 4, 5, 4, 3, 2];
+    return carPlate.map((e, i) => {
+        return e * factors[i];
+    });
+}
 
 describe("Singapore Car Plate Checksum", function() {
     describe("Prefix", function() {
@@ -68,6 +74,13 @@ describe("Singapore Car Plate Checksum", function() {
         it("converts car plate into numbers", function() {
             var carPlate = "SGA666";
             expect(toNumber(carPlate)).toEqual([7, 1, 0, 6, 6, 6]);
-        })
+        });
+    });
+
+    describe("Multiply", function() {
+        it("should convert the car plate numbers into the multiplied numbers", function() {
+            var carPlate = [7, 1, 0, 6, 6, 6];
+            expect(multiply(carPlate)).toEqual([63, 4, 0, 24, 18, 12]);
+        });
     });
 });
