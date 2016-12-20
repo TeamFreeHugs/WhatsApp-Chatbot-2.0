@@ -20,6 +20,12 @@ function numPrefix(prefix) {
     return padZeros([...p].map(c => c.codePointAt(0) - 64), 2);
 }
 
+function toNumber(carPlate) {
+    var [p, n] = carPlate.match(/([A-Z]+)(\d+)/).slice(1, 3);
+    return numPrefix(p).concat(number(n));
+}
+
+
 describe("Singapore Car Plate Checksum", function() {
     describe("Prefix", function() {
         describe("Letter selection", function() {
@@ -56,5 +62,12 @@ describe("Singapore Car Plate Checksum", function() {
             var n = "1";
             expect(number(n)).toEqual([0, 0, 0, 1]);
         });
+    });
+
+    describe("toNumber", function() {
+        it("converts car plate into numbers", function() {
+            var carPlate = "SGA666";
+            expect(toNumber(carPlate)).toEqual([7, 1, 0, 6, 6, 6]);
+        })
     });
 });
