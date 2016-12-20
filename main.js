@@ -5,19 +5,21 @@ const BrowserWindow = electron.BrowserWindow
 const path = require('path');
 const url = require('url');
 
-let mainWindow
+const util = require('./util/util');
 
-function createWindow () {
-    mainWindow = new BrowserWindow({width: 800, height: 600});
+let mainWindow;
 
-    mainWindow.loadURL('https://web.whatsapp.com');
+function injectInjector(mainWindow) {
+    var requirePath = path.join(__dirname, 'lib/whatsapp-injector');
+    mainWindow.webContents.executeJavaScript(`require('${requirePath}')();`);
+}
 
+function registerWindowHandlers(mainWindow) {
     mainWindow.webContents.on('did-finish-load', function() {
-        setTimeout(() => {
+        injectInjector(mainWindow);
+        if (util.isDevelopment()) {
             mainWindow.webContents.openDevTools();
-            var requirePath = path.join(__dirname, 'lib/whatsapp-injector');
-            mainWindow.webContents.executeJavaScript(`require('${requirePath}')();`);
-        }, 1000);
+        }
     });
 
     mainWindow.on('closed', function () {
@@ -25,16 +27,30 @@ function createWindow () {
     });
 }
 
-app.on('ready', createWindow);
+function registerAppHandlers() {
+    app.on('ready', createWindow);
 
-app.on('window-all-closed', function () {
-    if (process.platform !== 'darwin') {
-        app.quit();
-    }
-});
+    app.on('window-all-closed', function () {
+        if (process.platform !== 'darwin') {
+            app.quit();
+        }
+    });
 
-app.on('activate', function () {
-    if (mainWindow === null) {
-        createWindow();
-    }
-});
+    app.on('activate', function () {
+        if (mainWindow === null) {
+            createWindow();
+        }
+    });
+
+}
+
+function createWindow () {
+    const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize
+    mainWindow = new BrowserWindow({width, height});
+
+    mainWindow.loadURL('https://web.whatsapp.com');
+    registerWindowHandlers(mainWindow);
+}
+
+
+registerAppHandlers();
