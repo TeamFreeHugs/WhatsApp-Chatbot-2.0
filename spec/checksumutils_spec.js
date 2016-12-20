@@ -32,6 +32,10 @@ function multiply(carPlate) {
     });
 }
 
+function remainder(numbers) {
+    return numbers.reduce((x, y) => x + y, 0) % 19;
+}
+
 describe("Singapore Car Plate Checksum", () => {
     describe("Prefix", () => {
         describe("Letter selection", () => {
@@ -81,6 +85,13 @@ describe("Singapore Car Plate Checksum", () => {
         it("should convert the car plate numbers into the multiplied numbers", () => {
             var carPlate = [7, 1, 0, 6, 6, 6];
             expect(multiply(carPlate)).toEqual([63, 4, 0, 24, 18, 12]);
+        });
+    });
+
+    describe("Convert numbers to letter", () => {
+        it("returns mod19-remainder of sum of numbers", () => {
+            var numbers = [63, 4, 0, 24, 18, 12];
+            expect(remainder(numbers)).toEqual(7);
         });
     });
 });
