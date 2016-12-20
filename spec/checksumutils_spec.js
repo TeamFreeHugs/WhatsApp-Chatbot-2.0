@@ -32,53 +32,53 @@ function multiply(carPlate) {
     });
 }
 
-describe("Singapore Car Plate Checksum", function() {
-    describe("Prefix", function() {
-        describe("Letter selection", function() {
-            it("selects last 2 of 3 letters", function() {
+describe("Singapore Car Plate Checksum", () => {
+    describe("Prefix", () => {
+        describe("Letter selection", () => {
+            it("selects last 2 of 3 letters", () => {
                 var myPrefix = "SJG";
                 expect(prefix(myPrefix)).toEqual("JG");
             });
 
-            it("returns both letters for 2-letter prefixes", function() {
+            it("returns both letters for 2-letter prefixes", () => {
                 var myPrefix = "SE";
                 expect(prefix(myPrefix)).toEqual("SE");
             });
 
-            it("returns zero-padded letter", function() {
+            it("returns zero-padded letter", () => {
                 var myPrefix = "E";
                 expect(prefix(myPrefix)).toEqual("0E");
             });
         });
 
-        describe("Convert to numbers", function() {
-            it("maps letters to numbers", function() {
+        describe("Convert to numbers", () => {
+            it("maps letters to numbers", () => {
                 var myPrefix = "JG";
                 expect(numPrefix(myPrefix)).toEqual([10, 7]);
             });
-            it("returns leading 0 and maps remaining letters to numbers", function() {
+            it("returns leading 0 and maps remaining letters to numbers", () => {
                 var myPrefix = "0E";
                 expect(numPrefix(myPrefix)).toEqual([0, 5]);
             });
         });
     });
 
-    describe("Number", function() {
-        it("zero-pads numbers to 4-digit array", function() {
+    describe("Number", () => {
+        it("zero-pads numbers to 4-digit array", () => {
             var n = "1";
             expect(number(n)).toEqual([0, 0, 0, 1]);
         });
     });
 
-    describe("toNumber", function() {
-        it("converts car plate into numbers", function() {
+    describe("toNumber", () => {
+        it("converts car plate into numbers", () => {
             var carPlate = "SGA666";
             expect(toNumber(carPlate)).toEqual([7, 1, 0, 6, 6, 6]);
         });
     });
 
-    describe("Multiply", function() {
-        it("should convert the car plate numbers into the multiplied numbers", function() {
+    describe("Multiply", () => {
+        it("should convert the car plate numbers into the multiplied numbers", () => {
             var carPlate = [7, 1, 0, 6, 6, 6];
             expect(multiply(carPlate)).toEqual([63, 4, 0, 24, 18, 12]);
         });
