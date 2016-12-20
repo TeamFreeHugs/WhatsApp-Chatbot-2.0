@@ -1,0 +1,12 @@
+{
+  "name": "bus-bot",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "./node_modules/.bin/electron main.js"
+  },
+  "devDependencies": {
+    "electron": "^1.4.1",
+    "request": "^2.79.0"
+  }
+}
