@@ -1,35 +1,17 @@
-// const handlers = require('./CommandHandlers');
-// const MongoClient = require('mongodb').MongoClient;
-//
-// function setupBot() {
-//     global.api = WhatsAppAPI();
-//     function newMessage(messageText) {
-//         if (messageText.toLowerCase().startsWith('@eyeball')) {
-//             var [,command, ...args] = messageText.split(' ');
-//             if (!handlers[command]) {
-//                 api.sendMessage('Unknown command ' + (command || ''));
-//             } else {
-//                 handlers[command](args);
-//             }
-//         }
-//     }
-//     api.attachHandler({newMessage});
-//     api.startWatching();
-// }
-//
-// global.ok = function() {
-//     var client = new MongoClient();
-//     client.connect('mongodb://localhost:27017/BusBot', (err, db) => {
-//         global.buses = db.collection('buses');
-//         setupBot();
-//     });
-// }
-
-global.ok = function() {
+function setupBot() {
     var api = WhatsAppAPI.newInstance();
+    if (!api.isReady) {
+        console.log('API not yet ready. Check you are in a chat and try again.');
+        return;
+    }
     api.on('message', event => {
-        console.log('Received!');
-        console.log(event.message.content);
+        var message = event.message;
+        var {content, sender} = message;
+        console.log(`Recieved message "${content} from ${sender}"`);
+        if (content.startsWith('@echo '))
+            api.sendMessage(content.substring('@echo '.length));
     });
-    api.startWatching();
+    api.startGettingMessages();
 }
+
+global.setupBot = setupBot;
