@@ -6,7 +6,7 @@ var client = new MongoClient();
 client.connect('mongodb://localhost:27017/BusBot', (err, db) => {
     global.buses = db.collection('buses');
 
-    var filePath = path.join(__dirname, "../data/SMRT-Deployments.csv");
+    var filePath = path.join(__dirname, "../data/SBS-Deployments.csv");
     fs.readFile(filePath, (err, data) => {
         data = data.toString();
         var entries = data.split('\n');
