@@ -6,7 +6,4 @@ function isProduction() {
     return !isDevelopment();
 }
 
-module.exports = {
-    isProduction: isProduction,
-    isDevelopment: isDevelopment
-}
+module.exports = {isProduction,isDevelopment}
