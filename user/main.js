@@ -1,5 +1,5 @@
 function setupBot() {
-    var api = WhatsAppAPI.newInstance();
+    global.api = WhatsAppAPI.newInstance();
     if (!api.isReady) {
         console.log('API not yet ready. Check you are in a chat and try again.');
         return;
@@ -7,7 +7,7 @@ function setupBot() {
     api.on('message', event => {
         var message = event.message;
         var {content, sender} = message;
-        console.log(`Recieved message "${content} from ${sender}"`);
+        console.log(`Recieved message "${content}" from ${sender}`);
         if (content.startsWith('@echo '))
             api.sendMessage(content.substring('@echo '.length));
     });
