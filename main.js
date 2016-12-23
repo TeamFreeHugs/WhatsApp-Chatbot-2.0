@@ -7,8 +7,6 @@ const url = require('url');
 
 const util = require('./util/util');
 
-const mongoServerURL = 'mongodb://localhost:27017/BusBot';
-
 let mainWindow;
 
 function injectInjector(mainWindow) {
